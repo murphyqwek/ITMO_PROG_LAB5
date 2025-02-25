@@ -8,6 +8,7 @@ import org.example.manager.CollectionManager;
 import org.example.manager.CommandManager;
 import org.example.manager.CommandManagerSetuper;
 import org.example.manager.iomanager.FileIOManager;
+import org.example.parser.CsvCollectionManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class ScriptManager {
     private CollectionManager collectionManager;
     private FileManager fileManager;
     private CommandManager commandManager;
+    private CsvCollectionManager csvCollectionManager;
 
     static {
         recursionSet = new HashSet<>();
@@ -36,12 +38,14 @@ public class ScriptManager {
      * @param filepath путь к скрипту
      * @param collectionManager класс для управления коллекцией
      * @param fileManager класс для взаимодействия с файлом коллекции
+     * @param csvCollectionManager класс для работы с файлом коллекции
      */
-    public ScriptManager(String filepath, CollectionManager collectionManager, FileManager fileManager) {
+    public ScriptManager(String filepath, CollectionManager collectionManager, FileManager fileManager, CsvCollectionManager csvCollectionManager) {
         this.filepath = filepath;
         this.collectionManager = collectionManager;
         this.fileManager = fileManager;
         this.commandManager = new CommandManager();
+        this.csvCollectionManager = csvCollectionManager;
     }
 
     /**
@@ -64,7 +68,7 @@ public class ScriptManager {
             throw new DamageScriptException();
         }
 
-        CommandManagerSetuper.SetupCommandManager(new FileIOManager(fileReaderIterator), collectionManager, commandManager, fileManager);
+        CommandManagerSetuper.SetupCommandManager(new FileIOManager(fileReaderIterator), collectionManager, commandManager, fileManager, csvCollectionManager);
 
         while(fileReaderIterator.hasNext()) {
             String line = fileReaderIterator.next();

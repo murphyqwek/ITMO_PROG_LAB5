@@ -2,6 +2,8 @@ package org.example.fieldReader;
 
 import org.example.manager.iomanager.IOManager;
 
+import java.util.NoSuchElementException;
+
 /**
  * StringFieldReader - базовый класс для считывания полей
  *
@@ -33,7 +35,13 @@ public abstract class BaseFieldReader {
 
         while(true) {
             ioManager.writeLine(fieldAskString);
-            output = ioManager.readLine();
+
+            try {
+                output = ioManager.readLine();
+            }
+            catch (NoSuchElementException e) {
+                throw new InterruptedException();
+            }
 
             if(isInputCorrect(output)) {
                 break;

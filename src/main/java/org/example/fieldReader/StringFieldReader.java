@@ -28,10 +28,6 @@ public class StringFieldReader extends BaseFieldReader {
      */
     @Override
     public boolean isInputCorrect(String input) {
-        if(input.contains(";")) {
-            ioManager.writeLine("Строка не должна содержать символ ;");
-            return false;
-        }
 
         return true;
     }

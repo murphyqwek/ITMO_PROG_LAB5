@@ -2,8 +2,6 @@ package org.example.manager;
 
 import org.example.command.*;
 import org.example.exceptions.CommandArgumentExcetpion;
-import org.example.exceptions.DamageScriptException;
-import org.example.exceptions.RecursionException;
 import org.example.exceptions.UnknownCommandException;
 
 import java.util.ArrayList;

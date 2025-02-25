@@ -1,10 +1,9 @@
 package org.example.command;
 
 import org.example.exceptions.CommandArgumentExcetpion;
-import org.example.file.FileManager;
 import org.example.manager.CollectionManager;
 import org.example.manager.iomanager.IOManager;
-import org.example.parser.CsvParser;
+import org.example.parser.CsvCollectionManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,19 +16,19 @@ import java.util.ArrayList;
  */
 
 public class SaveUserCommand extends UserCommand {
-    private FileManager fileManager;
+    private CsvCollectionManager csvCollectionManager;
     private CollectionManager collectionManager;
 
     /**
      * Конструктор класса
      * @param collectionManager класс для управления коллекцией
-     * @param fileManager класс для работы с файлом, куда будет сохранена коллекция
+     * @param csvCollectionManager класс для работы с файлом, куда будет сохранена коллекция
      * @param ioManager класс для работы с вводом-выводом
      */
-    public SaveUserCommand(CollectionManager collectionManager, FileManager fileManager, IOManager ioManager) {
+    public SaveUserCommand(CollectionManager collectionManager, CsvCollectionManager csvCollectionManager, IOManager ioManager) {
         super("save", "save: сохранить коллекцию в файл", ioManager);
 
-        this.fileManager = fileManager;
+        this.csvCollectionManager = csvCollectionManager;
         this.collectionManager = collectionManager;
     }
 
@@ -46,10 +45,9 @@ public class SaveUserCommand extends UserCommand {
         }
 
         var collection = collectionManager.getCollection();
-        String serializedCollection = CsvParser.serialize(collection);
 
         try {
-            fileManager.writeAllToFile(serializedCollection);
+            csvCollectionManager.saveCollection(collection);
             ioManager.writeLine("Коллекция успешно сохранена!");
         } catch (IOException e) {
             ioManager.writeLine("Не удалось сохранить коллекцию в файл. Проверьте, что он существует, что вы имеете доступ на модификацию файла и что он не открыт в другой программе");
